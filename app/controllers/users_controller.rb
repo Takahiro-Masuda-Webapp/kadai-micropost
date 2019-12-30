@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_user_logged_in, only: [:index, :show]
+  
   def index
     @user = User.order(id: :desc).page(params[:page]).per(25)
   end
@@ -21,6 +23,12 @@ class UsersController < ApplicationController
       flash[:danger] = 'ユーザー登録に失敗しました'
       render :new
     end
+  end
+  
+  def destroy 
+    session[:user_id] = nill
+    flash[success] = 'ログアウトに成功しました'
+    redirect_to root_url
   end
   
   private
