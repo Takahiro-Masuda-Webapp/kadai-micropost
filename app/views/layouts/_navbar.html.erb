@@ -11,10 +11,12 @@
                 <li class="nav-item"><%= link_to 'users', users_path, class: 'nav-link' %></li>
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user.name %></a>
-                  <ul class="dropdown-menu dropdown-menu-light">
-                    <li class="dropdown-menu"><%= link_to 'My profile', user_path %></li>
-                    <li class="dropdown-diviver"></li>
-                    <li class="dropdown-menu"><%= link_to 'Logout', logout_path, method: :delete %></li>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-item"><%= link_to 'My profile', user_path(current_user) %></li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item"><%= link_to 'favorite', likes_user_path(current_user) %></li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item"><%= link_to 'Logout', logout_path, method: :delete %></li>
                   </ul>
                 </li>
               <% else %>

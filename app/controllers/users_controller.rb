@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
   
   def index
-    @user = User.order(id: :desc).page(params[:page]).per(25)
+    @users = User.order(id: :desc).page(params[:page]).per(25)
   end
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.order(id: :desc).page(params[:page])
+    counts(@user)
   end
 
   def new
@@ -25,10 +27,22 @@ class UsersController < ApplicationController
     end
   end
   
-  def destroy 
-    session[:user_id] = nill
-    flash[success] = 'ログアウトに成功しました'
-    redirect_to root_url
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.followings.page(params[:page])
+    counts(@user)
+  end
+  
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
+  
+  def likes
+    @user = User.find(params[:id])
+    @approvings = @user.approvings.page(params[:page]).per(20)
+    counts(@user)
   end
   
   private
